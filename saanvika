@@ -1,0 +1,292 @@
+<html>
+<head>
+    <title> Indian Singers Dashboard</title>
+    <style>
+        /* CSS styles */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #searchButton {
+            padding: 10px 20px;
+            margin-left: 10px;
+        }
+
+        #singersContainer {
+            margin-top: 20px;
+        }
+
+        .singer-profile {
+            margin-bottom: 20px;
+            display: none; /* Initially hide the profiles */
+        }
+
+        .singer-profile.show {
+            display: block; /* Display the profiles when shown */
+        }
+
+        .singer-profile h3 {
+            margin-bottom: 5px;
+        }
+
+        .singer-profile p {
+            margin: 0;
+        }
+
+        .singer-profile a {
+            color: #0366d6;
+        }
+
+        #notFoundMessage {
+            display: none; /* Initially hide the "Data not found" message */
+            color: pink;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Indian Singers Dashboard</h1>
+        <div>
+            <input type="text" id="searchInput" placeholder="Search singers">
+            <button id="searchButton" onclick="searchData()">Search</button>
+        </div>
+        <div id="singersContainer"></div>
+        <p id="notFoundMessage">Data not found</p>
+    </div>
+
+    <script>
+        // JavaScript code
+        const singers = [
+            // Old Singers
+            {
+                name: 'P. Susheela',
+                age: 84,
+                firstSong: 'Paal Polave',
+                city: 'Chennai',
+                wikipedia: 'https://en.wikipedia.org/wiki/P._Susheela'
+            },
+            {
+                name: 'S. Janaki',
+                age: 83,
+                firstSong: 'Kannae Kalaimaane',
+                city: 'Vellore',
+                wikipedia: 'https://en.wikipedia.org/wiki/S._Janaki'
+            },
+            {
+                name: 'P. B. Sreenivas',
+                age: 82,
+                firstSong: 'Neela Vaanum Nilaavum',
+                city: 'Kakinada',
+                wikipedia: 'https://en.wikipedia.org/wiki/P._B._Sreenivas'
+            },
+            // Add more old singers...
+            {
+                name: 'Lata Mangeshkar',
+                age: 92,
+                firstSong: 'Mata Ek Sapoot Ki Duniya Badal De Tu',
+                city: 'Indore',
+                wikipedia: 'https://en.wikipedia.org/wiki/Lata_Mangeshkar'
+            },
+            {
+                name: 'Sunidhi Chauhan',
+                age: 38,
+                firstSong: 'Ruki Ruki',
+                city: 'New Delhi',
+                wikipedia: 'https://en.wikipedia.org/wiki/Sunidhi_Chauhan'
+            },
+            {
+                name: 'K.S. Chithra',
+                age: 58,
+                firstSong: 'Attinkarayorathil',
+                city: 'Thiruvananthapuram',
+                wikipedia: 'https://en.wikipedia.org/wiki/K._S._Chithra'
+            },
+            {
+                name: 'A.R. Rahman',
+                age: 55,
+                firstSong: 'Roja Janeman',
+                city: 'Chennai',
+                wikipedia: 'https://en.wikipedia.org/wiki/A._R._Rahman'
+            },
+            {
+                name: 'Udit Narayan',
+                age: 66,
+                firstSong: 'Mil Gaya Mil Gaya',
+                city: 'Bharadah',
+                wikipedia: 'https://en.wikipedia.org/wiki/Udit_Narayan'
+            },
+            // Young Singers
+            {
+                name: 'Armaan Malik',
+                age: 26,
+                firstSong: 'Tumko Toh Aana Hi Tha',
+                city: 'Mumbai',
+                wikipedia: 'https://en.wikipedia.org/wiki/Armaan_Malik'
+            },
+            {
+                name: 'Neeti Mohan',
+                age: 42,
+                firstSong: 'Ishq Wala Love',
+                city: 'Delhi',
+                wikipedia: 'https://en.wikipedia.org/wiki/Neeti_Mohan'
+            },
+            {
+                name: 'Monali Thakur',
+                age: 36,
+                firstSong: 'Kubool Kar Le',
+                city: 'Kolkata',
+                wikipedia: 'https://en.wikipedia.org/wiki/Monali_Thakur'
+            },
+            {
+                name: 'Darshan Raval',
+                age: 27,
+                firstSong: 'Tera Zikr',
+                city: 'Ahmedabad',
+                wikipedia: 'https://en.wikipedia.org/wiki/Darshan_Raval'
+            },
+            {
+                name: 'Hemachandra',
+                age: 34,
+                firstSong: 'Hrudayam Ekkadunnadi',
+                city: 'Hyderabad',
+                wikipedia: 'https://en.wikipedia.org/wiki/Hemachandra'
+            },
+            {
+                name: 'Chinmayi',
+                age: 37,
+                firstSong: 'Oru Deivam Thantha Poove',
+                city: 'Mumbai',
+                wikipedia: 'https://en.wikipedia.org/wiki/Chinmayi'
+            },
+            {
+                name: 'Karthik',
+                age: 41,
+                firstSong: 'Arey Rey Arey Rey',
+                city: 'Chennai',
+                wikipedia: 'https://en.wikipedia.org/wiki/Karthik_(singer)'
+            },
+            {
+                name: 'Sid Sriram',
+                age: 32,
+                firstSong: 'Adiye',
+                city: 'Chennai',
+                wikipedia: 'https://en.wikipedia.org/wiki/Sid_Sriram'
+            },
+            {
+                name: 'Sunitha',
+                age: 43,
+                firstSong: 'Ee Vela Lo Neevu',
+                city: 'Anakapalli',
+                wikipedia: 'https://en.wikipedia.org/wiki/Sunitha_Upadrasta'
+            },
+            {
+                name: 'Devi Sri Prasad',
+                age: 42,
+                firstSong: 'Ninne Ninne',
+                city: 'Chennai',
+                wikipedia: 'https://en.wikipedia.org/wiki/Devi_Sri_Prasad'
+            },
+            {
+                name: 'M.M. Keeravani',
+                age: 60,
+                firstSong: 'Pacchani Chilukalu',
+                city: 'Kovvur',
+                wikipedia: 'https://en.wikipedia.org/wiki/M._M._Keeravani'
+            },
+            {
+                name: 'Geetha Madhuri',
+                age: 33,
+                firstSong: 'Ninne Ninne',
+                city: 'Palakollu',
+                wikipedia: 'https://en.wikipedia.org/wiki/Geetha_Madhuri'
+            },
+            {
+                name: 'Mangli',
+                age: 28,
+                firstSong: 'Sri Rama Navami',
+                city: 'Guntur',
+                wikipedia: 'https://en.wikipedia.org/wiki/Mangli'
+            },
+            {
+                name: 'Chandra Bose',
+                age: 45,
+                firstSong: 'Ammadu Lets Do Kummudu',
+                city: 'Hyderabad',
+                wikipedia: 'https://en.wikipedia.org/wiki/Chandra_Bose_(lyricist)'
+            },
+            {
+                name: 'Madhu Priya',
+                age: 27,
+                firstSong: 'Adapillanamma Nenu Adapilanani',
+                city: 'Hanamkonda',
+                wikipedia: 'https://en.wikipedia.org/wiki/Madhu_Priya'
+            },
+            {
+                name: 'S.S. Thaman',
+                age: 38,
+                firstSong: 'Vayyarala Jabilli',
+                city: 'Guntur',
+                wikipedia: 'https://en.wikipedia.org/wiki/S._Thaman'
+            },
+            {
+                name: 'Udit Narayan',
+                age: 66,
+                firstSong: 'Mil Gaya Mil Gaya',
+                city: 'Bharadah',
+                wikipedia: 'https://en.wikipedia.org/wiki/Udit_Narayan'
+            }
+        ];
+
+        function renderSingers(filteredSingers) {
+            const singersContainer = document.getElementById('singersContainer');
+            const notFoundMessage = document.getElementById('notFoundMessage');
+
+            singersContainer.innerHTML = '';
+            notFoundMessage.style.display = 'none';
+
+            if (filteredSingers.length === 0) {
+                notFoundMessage.style.display = 'block';
+            } else {
+                filteredSingers.forEach(singer => {
+                    const singerDiv = document.createElement('div');
+                    singerDiv.classList.add('singer-profile', 'show'); // Add "show" class to display the profiles
+                    singerDiv.innerHTML = `
+                        <h3>${singer.name}</h3>
+                        <p>Age: ${singer.age}</p>
+                        <p>First Song: ${singer.firstSong}</p>
+                        <p>City: ${singer.city}</p>
+                        <p><a href="${singer.wikipedia}" target="_blank">Wikipedia</a></p>
+                        <hr>
+                    `;
+                    singersContainer.appendChild(singerDiv);
+                });
+            }
+        }
+
+        function searchData() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredSingers = singers.filter(singer => {
+                const name = singer.name.toLowerCase();
+                return name.includes(searchTerm);
+            });
+            renderSingers(filteredSingers);
+        }
+    </script>
+</body>
+</html>
